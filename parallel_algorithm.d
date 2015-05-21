@@ -2,6 +2,8 @@ import std.typetuple, std.parallelism, std.range, std.functional,
     std.algorithm, std.stdio, std.array, std.traits, std.conv,
     core.stdc.string, core.atomic;
 
+static import std.numeric;
+
 version(unittest) {
     import std.random, std.typecons, std.math;
 }
