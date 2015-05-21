@@ -627,8 +627,8 @@ hasLength!R1 && hasLength!R2) {
     assert(chunks1.length == chunks2.length);
     immutable nChunks = chunks1.length;
     
-    bool ret = true;
-    size_t currentChunkIndex = size_t.max;
+    shared bool ret = true;
+    shared size_t currentChunkIndex = size_t.max;
     
     foreach(threadId; parallel(iota(nThreads), 1)) {
         
@@ -747,12 +747,12 @@ Range parallelFind(alias pred, Range)(
         size_t old = void;
         
         do {
-            old = atomicLoad!(msync.raw)(minHitIndex);
+            old = atomicLoad!(MemoryOrder.raw)(minHitIndex);
             if(newIndex >= old) return;
         } while(!cas(&minHitIndex, old, newIndex));
     }
     
-    size_t sliceIndex = size_t.max;
+    shared size_t sliceIndex = size_t.max;
     
     foreach(threadId; parallel(iota(nThreads), 1)) {
        
@@ -873,7 +873,7 @@ template arrayOpImpl(ops...) {
     ) if(Operands.length >= 2) {
         if(pool is null) pool = taskPool;
         immutable nThread = pool.size + 1;
-        size_t workUnitIndex = size_t.max;
+        shared size_t workUnitIndex = size_t.max;
         
         foreach(thread; parallel(iota(nThread), 1)) {
             while(true) {
@@ -908,6 +908,8 @@ unittest {
     }
 }
 
+version(Benchmark)
+{
 //////////////////////////////////////////////////////////////////////////////
 // Benchmarks
 //////////////////////////////////////////////////////////////////////////////
@@ -1000,11 +1002,11 @@ void dotProdBenchmark() {
     }
 
     auto sw = StopWatch(AutoStart.yes);
-    foreach(i; 0..nIter) std.numeric.dotProduct(a, b);
+    foreach(i; 0..nIter) auto res = std.numeric.dotProduct(a, b);
     writeln("Serial dot product:    ", sw.peek.msecs);
 
     sw.reset();
-    foreach(i; 0..nIter) parallelDotProduct(a, b, taskPool);
+    foreach(i; 0..nIter) auto res = parallelDotProduct(a, b, taskPool);
     writeln("Parallel dot product:  ", sw.peek.msecs);
 }
 
@@ -1178,4 +1180,5 @@ void main() {
     adjacentDifferenceBenchmark();
     equalBenchmark();
     findBenchmark();
+}
 }
