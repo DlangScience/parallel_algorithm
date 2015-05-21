@@ -1,0 +1,15 @@
+{
+    "name": "parallel-algorithms",
+    "authors": ["David Simcha"],
+
+    "sourcePaths": ["."],
+    "importPaths": ["."],
+
+    "configurations": [
+        {
+            "name": "benchmark",
+            "targetType": "executable",
+            "versions": ["Benchmark"]
+        }
+    ]
+}
