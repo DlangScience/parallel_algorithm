@@ -7,6 +7,11 @@
 
     "configurations": [
         {
+            "name": "lib",
+            "targetType": "library"
+        },
+        }
+        {
             "name": "benchmark",
             "targetType": "executable",
             "versions": ["Benchmark"]
