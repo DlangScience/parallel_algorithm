@@ -1,3 +1,5 @@
+module parallel_algorithm;
+
 import std.typetuple, std.parallelism, std.range, std.functional,
     std.algorithm, std.stdio, std.array, std.traits, std.conv,
     core.stdc.string, core.atomic;
