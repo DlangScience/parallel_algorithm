@@ -2,9 +2,6 @@
     "name": "parallel-algorithms",
     "authors": ["David Simcha"],
 
-    "sourcePaths": ["."],
-    "importPaths": ["."],
-
     "configurations": [
         {
             "name": "lib",
