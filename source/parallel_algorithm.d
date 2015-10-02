@@ -10,6 +10,10 @@ version(unittest) {
     import std.random, std.typecons, std.math;
 }
 
+void foo(){}
+unittest { foo(); }
+void bar(){}
+
 private template finiteRandom(R) {
     enum bool finiteRandom = isRandomAccessRange!R && std.range.hasLength!R;
 }
