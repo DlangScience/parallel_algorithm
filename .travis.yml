@@ -21,3 +21,8 @@ matrix:
      d: gdc
    - os: linux
      d: ldc-0.15.2-beta2
+
+before_install:
+ - pip install --user codecov
+after_success:
+ - codecov
